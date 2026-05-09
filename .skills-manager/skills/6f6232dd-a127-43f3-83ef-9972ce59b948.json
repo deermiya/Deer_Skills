@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "6f6232dd-a127-43f3-83ef-9972ce59b948",
+  "path": "no-ai-flavor-writing",
+  "path_key": "no-ai-flavor-writing",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "import",
+    "ref": null,
+    "subpath": null,
+    "branch": null
+  }
+}

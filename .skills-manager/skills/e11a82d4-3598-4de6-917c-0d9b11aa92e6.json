@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "e11a82d4-3598-4de6-917c-0d9b11aa92e6",
+  "path": "create-hook",
+  "path_key": "create-hook",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "import",
+    "ref": null,
+    "subpath": null,
+    "branch": null
+  }
+}
