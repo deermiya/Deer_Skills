@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "cb422280-abdc-4919-ace2-7e1bc8be9e81",
+  "path": "newbody-plan-json",
+  "path_key": "newbody-plan-json",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "local",
+    "ref": null,
+    "subpath": null,
+    "branch": null
+  }
+}
