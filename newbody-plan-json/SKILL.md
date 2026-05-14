@@ -51,17 +51,24 @@ Do not output diet-only or exercise-only JSON. Do not wrap in an outer `"plan"` 
 ### MealItem
 
 ```json
-{ "food": "全麦吐司", "amount": "2片", "cal": 160 }
+{
+  "food": "全麦吐司",
+  "amount": "2片",
+  "cal": 160,
+  "method": "直接食用或轻微烤热"
+}
 ```
 
 - `food`: string
 - `amount`: string，自由描述（"150g" / "2片" / "一碗" 都行）
 - `cal`: **int**，kcal
+- `method`: string，餐食简易做法，用一句话说明怎么处理；无需烹饪的食物写 `"直接食用"`。
 
 ### Rules
 
 - `meals` keys **固定** `breakfast` / `lunch` / `dinner` / `snack`，写中文 key 前端读不到。
 - 无食物的餐用空数组 `[]`。
+- 每个 `MealItem` 必须包含 `food` / `amount` / `cal` / `method`。
 - `exercise` 在饮食计划里通常留空 `[]`。
 - `total_intake` / `total_burn`: **int**，不能是字符串。
 - `note`: 可选，空字符串即可。
@@ -161,9 +168,10 @@ Unless the user explicitly overrides these preferences:
 3. **`diet_plan.days` 和 `exercise_plan.days` 必须是数组**，各 7 项。
 4. **`day` 值必须是** `周一` / `周二` / `周三` / `周四` / `周五` / `周六` / `周日`——英文或数字无法匹配。
 5. **`meals` keys 只识别** `breakfast` / `lunch` / `dinner` / `snack`。
-6. **整数字段**（`cal` / `total_intake` / `total_burn` / `total_cal` / `sets`）必须是数字，不能是字符串。
-7. `shopping_list` 必须是数组，且每项必须包含 `category` / `item` / `amount` / `note`。
-8. 不支持只输出饮食计划或只输出运动计划。
+6. 每个 `MealItem` 必须包含 `food` / `amount` / `cal` / `method`。
+7. **整数字段**（`cal` / `total_intake` / `total_burn` / `total_cal` / `sets`）必须是数字，不能是字符串。
+8. `shopping_list` 必须是数组，且每项必须包含 `category` / `item` / `amount` / `note`。
+9. 不支持只输出饮食计划或只输出运动计划。
 
 ## Validity Checklist
 
@@ -176,6 +184,7 @@ Before outputting, mentally verify:
 - No extra keys (`plan_name`, `level`, `summary`, `metadata`).
 - No comments, no placeholder ellipses, no trailing commas.
 - `meals` uses only the four English keys.
+- Every meal item includes a concise `method` field.
 - `total_intake` equals the sum of all `cal` in that day's meals.
 - `total_cal` equals the sum of all `cal` in that day's exercises.
 - `shopping_list` covers the main ingredients used across all 7 days.
