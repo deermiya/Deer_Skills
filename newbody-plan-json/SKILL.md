@@ -7,7 +7,7 @@ description: Output NewBody APP importable JSON for diet plans, exercise plans, 
 
 ## Output Rule
 
-When generating a plan for NewBody APP import, output **valid JSON only** unless the user explicitly asks for explanation or a meal prep workflow. The APP's import page auto-strips ` ```json ``` ` fences and extracts the first `{…}` block, so raw JSON or JSON inside a code block both work. Do **not** add comments, ellipses, trailing commas, or unnecessary summaries. (Exception: You may append the meal prep workflow markdown AFTER the JSON block).
+When generating a plan for NewBody APP import, output **valid JSON only** unless the user explicitly asks for explanation. The APP's import page auto-strips ` ```json ``` ` fences and extracts the first `{…}` block, so raw JSON or JSON inside a code block both work. Do **not** add comments, ellipses, trailing commas, or unnecessary summaries. (Note: Meal prep workflows should now be included INSIDE the JSON structure under `prep_workflow`).
 
 ## Top-Level Structure (三选一)
 
@@ -160,15 +160,20 @@ Before outputting, mentally verify:
 - `total_cal` equals the sum of all `cal` in that day's exercises.
 - Every meal item includes a concise `method` field.
 
-## Meal Prep Workflow (Markdown Output)
+## Prep Workflow (Optional JSON field)
 
-If the user requests a weekly meal prep plan or if applicable to the generated diet plan, you should append the following markdown section **AFTER** the JSON block:
+If the user requests a meal prep plan or if generating a weekly strategy, include a `prep_workflow` array at the top level of the JSON. Each item must have `step` and `detail`.
 
-### 周日备餐流程（约1.5小时）
-
-1. **煮蛋**（0分钟开始）：14个蛋冷水下锅，大火煮开转小火8分钟，捞出冰水冷却
-2. **蒸米饭**（0分钟开始）：500g生米洗净，电饭煲启动
-3. **焯蔬菜**（同时进行）：烧一大锅水，依次焯西兰花（2分钟）、芦笋（1分钟）、菠菜需要时焯（30秒），捞出沥干
-4. **处理蛋白质**（20分钟开始）：切肉、切鱼、分装、腌制、贴标签
-5. **分装**（50分钟开始）：蔬菜分份装盒，米饭分份装盒，全部贴好日期标签
-6. **入库**（70分钟）：冷藏区放前3天的，冷冻区放后面的
+```json
+{
+  "diet_plan": { "days": [...] },
+  "prep_workflow": [
+    { "step": "1. 煮蛋 (0分钟开始)", "detail": "14个蛋冷水下锅，大火煮开转小火8分钟，捞出冰水冷却" },
+    { "step": "2. 蒸米饭 (0分钟开始)", "detail": "500g生米洗净，电饭煲启动" },
+    { "step": "3. 焯蔬菜 (同时进行)", "detail": "烧一大锅水，依次焯西兰花(2分钟)、芦笋(1分钟)、菠菜(30秒)，捞出沥干" },
+    { "step": "4. 处理蛋白质 (20分钟)", "detail": "切肉、切鱼、分装、腌制、贴标签" },
+    { "step": "5. 分装 (50分钟开始)", "detail": "蔬菜分份装盒，米饭分份装盒，全部贴好日期标签" },
+    { "step": "6. 入库 (70分钟)", "detail": "冷藏区放前3天的，冷冻区放后面的" }
+  ]
+}
+```
