@@ -133,6 +133,26 @@ always @(posedge i_clk)
     else ;
 ```
 
+## 文件头规范
+
+每个 `.v` 文件顶部必须包含以下格式的文件头:
+
+```verilog
+//=============================================================
+// module name : <模块名>.v
+// author      : Chmy
+// create time : <YYYY-MM-DD>
+// description : <一句话功能描述>
+//   <详细说明，可多行，缩进2空格>
+//=============================================================
+```
+
+字段说明:
+- `module name` : 文件名 (含 `.v` 后缀)
+- `author`      : 固定填 `Chmy`
+- `create time` : 创建日期，格式 `YYYY-MM-DD`
+- `description` : 第一行为一句话概述;后续行缩进2空格，写关键实现细节 (多项式、状态机、协议要点等)
+
 ## 代码排版规范
 
 **基本规则**:
@@ -150,13 +170,13 @@ input/output        从第 5 列开始
 示例:
 ```verilog
 module top (
-    input                           i_clk               ,
-    input                           i_rst_p             ,
-    input   [7 :0]                  i_data              ,
-    input                           i_valid             ,
-    
-    output                          o_ready             ,
-    output  [15:0]                  o_result            
+    input                                   i_clk                               ,
+    input                                   i_rst_p                             ,
+    input   [7 :0]                          i_data                              ,
+    input                                   i_valid                             ,
+
+    output                                  o_ready                             ,
+    output  [15:0]                          o_result
 );
 ```
 
@@ -169,11 +189,11 @@ wire/reg            4空格缩进
 
 示例:
 ```verilog
-    wire                            w_fire              ;
-    wire [7 :0]                     w_next_data         ;
-    
-    reg  [2 :0]                     r_state = S_IDLE    ;
-    reg  [15:0]                     r_counter = 0       ;
+    wire                                w_fire                              ;
+    wire [7 :0]                         w_next_data                         ;
+
+    reg  [2 :0]                         r_state = S_IDLE                    ;
+    reg  [15:0]                         r_counter = 0                       ;
 ```
 
 **赋值语句**:
