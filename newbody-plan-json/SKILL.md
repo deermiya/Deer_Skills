@@ -163,6 +163,8 @@ Before outputting, mentally verify:
 - Every meal item includes a concise `method` field.
 - **Checked**: No fish in any meal.
 - **Checked**: No soup in lunch.
+- No extra keys except `shopping_list` and `prep_workflow`.
+- `shopping_list` (if present) is an array of objects with `category`, `item`, `amount`.
 
 ## Prep Workflow (Optional JSON field)
 
@@ -181,3 +183,47 @@ If the user requests a meal prep plan or if generating a weekly strategy, includ
   ]
 }
 ```
+
+---
+
+## Shopping List (Optional JSON field)
+
+If the user requests a shopping list, include a `shopping_list` array at the top level of the JSON. Each item is a `ShoppingItem`.
+
+Key name aliases accepted by the APP: `shopping_list` / `shoppingList`
+
+```json
+{
+  "diet_plan": { "days": [...] },
+  "shopping_list": [
+    { "category": "主食/谷物", "item": "糙米", "amount": "2kg" },
+    { "category": "蔬菜", "item": "西兰花", "amount": "1kg", "note": "选深绿色花球" },
+    { "category": "肉类/水产", "item": "鸡胸肉", "amount": "1.5kg" },
+    { "category": "蛋奶/豆制品", "item": "鸡蛋", "amount": "30个" },
+    { "category": "水果", "item": "蓝莓", "amount": "500g" },
+    { "category": "调味料", "item": "黑胡椒", "amount": "1瓶", "note": "现磨款" }
+  ]
+}
+```
+
+### ShoppingItem
+
+```json
+{
+  "category": "蔬菜",
+  "item": "西兰花",
+  "amount": "1kg",
+  "note": "选深绿色花球"
+}
+```
+
+- `category`: string，分类。APP 内置图标识别以下分类：`主食/谷物`、`蔬菜`、`肉类/水产`、`蛋奶/豆制品`、`水果`；其他分类显示默认厨房图标
+- `item`: string，食材/商品名
+- `amount`: string，数量（自由描述："1kg" / "2袋" / "1瓶" 都行）
+- `note`: string，可选备注
+
+### Rules
+
+- `shopping_list` 是一个**数组**，不是对象，直接放在顶层 JSON 下。
+- 从一周饮食计划中汇总食材时，应**合并同类食材**并累加数量（如 7 天都用鸡胸肉，合并为一项并注明总量）。
+- 分类尽量使用 APP 内置的 5 种（有专属图标），其余归入自定义分类。
