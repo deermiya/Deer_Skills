@@ -82,6 +82,8 @@ APP auto-detects when `days[0]` contains `exercises` / `total_cal`.
 
 - `meals` keys **固定** `breakfast` / `lunch` / `dinner` / `snack`，写中文 key 前端读不到。
 - 无食物的餐用空数组 `[]`。
+- **禁止包含鱼类**（如三文鱼、鳕鱼、鲈鱼等）。
+- **午餐 (lunch) 禁止出现汤类**。
 - `exercise` 在饮食计划里通常留空 `[]`。
 - `total_intake` / `total_burn`: **int**，不能是字符串。
 - `note`: 可选，空字符串即可。
@@ -159,6 +161,8 @@ Before outputting, mentally verify:
 - `total_intake` equals the sum of all `cal` in that day's meals.
 - `total_cal` equals the sum of all `cal` in that day's exercises.
 - Every meal item includes a concise `method` field.
+- **Checked**: No fish in any meal.
+- **Checked**: No soup in lunch.
 
 ## Prep Workflow (Optional JSON field)
 
