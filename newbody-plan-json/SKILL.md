@@ -89,6 +89,8 @@ APP auto-detects when `days[0]` contains `exercises` / `total_cal`.
 - `exercise` 在饮食计划里通常留空 `[]`。
 - `total_intake` / `total_burn`: **int**，不能是字符串。
 - `note`: 可选，空字符串即可。
+- **每周计划必须包含水果**，水果统一放入 `snack` 分类中。
+- **香蕉、玉米、红薯** 每周各自必须**至少出现 1 天**（其中玉米和红薯可作为午餐或晚餐的主食替代品）。
 
 ---
 
@@ -165,6 +167,8 @@ Before outputting, mentally verify:
 - Every meal item includes a concise `method` field.
 - **Checked**: No fish in any meal.
 - **Checked**: No soup in lunch.
+- **Checked**: `snack` 分类中已包含水果。
+- **Checked**: 一周计划中香蕉、玉米、红薯均已至少出现一次。
 - No extra keys except `shopping_list`, `prep_workflow`, and `user_profile`.
 - `shopping_list` (if present) is an array of objects with `category`, `item`, `amount`.
 
