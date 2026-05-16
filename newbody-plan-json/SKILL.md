@@ -15,12 +15,14 @@ When generating a plan for NewBody APP import, output **valid JSON only** unless
 
 ```json
 {
+  "user_profile":  { /* UserProfile */ },
   "diet_plan":     { "days": [ /* DayPlan × 7 */ ] },
   "exercise_plan": { "days": [ /* ExerciseDayPlan × 7 */ ] }
 }
 ```
 
 Key name aliases accepted by the APP (pick one, don't mix):
+- Profile: `user_profile` / `userProfile` / `config`
 - Diet: `diet_plan` / `dietPlan` / `meal_plan` / `mealPlan` / `food_plan` / `foodPlan`
 - Exercise: `exercise_plan` / `exercisePlan` / `workout_plan` / `workoutPlan`
 
@@ -163,8 +165,46 @@ Before outputting, mentally verify:
 - Every meal item includes a concise `method` field.
 - **Checked**: No fish in any meal.
 - **Checked**: No soup in lunch.
-- No extra keys except `shopping_list` and `prep_workflow`.
+- No extra keys except `shopping_list`, `prep_workflow`, and `user_profile`.
 - `shopping_list` (if present) is an array of objects with `category`, `item`, `amount`.
+
+---
+
+## User Profile (Optional JSON field)
+
+Include this field to automatically set up the user's personal information in the APP.
+
+```json
+{
+  "user_profile": {
+    "height": 170.0,
+    "startWeight": 101.5,
+    "targetWeight": 70.0,
+    "startDate": "2026-05-16",
+    "targetDate": "2027-01-01",
+    "dailyCalorieTarget": 1800,
+    "bmr": 1650.0,
+    "occupation": "久坐程序员"
+  }
+}
+```
+
+### UserProfile fields
+
+- `height`: **float**, cm
+- `startWeight`: **float**, kg
+- `targetWeight`: **float**, kg
+- `startDate`: **string**, "YYYY-MM-DD"
+- `targetDate`: **string**, "YYYY-MM-DD"
+- `dailyCalorieTarget`: **int**, kcal
+- `bmr`: **float**, kcal
+- `occupation`: **string**, occupation name
+
+### Rules
+
+- All numeric fields should be numbers, not strings.
+- Dates must be in `YYYY-MM-DD` format.
+- If this field is present, the APP will overwrite existing profile settings upon import.
 
 ## Prep Workflow (Optional JSON field)
 
