@@ -40,6 +40,33 @@ description: FPGA Verilog工程规范。当用户需要"写Verilog代码"、"RTL
 | 独热状态 | `S_` | `S_IDLE = 1 << C_IDLE` |
 | 状态映射 | `st_` | `st_idle`, `st_work` |
 
+**输出端口驱动规则**:
+- 端口列表中的 `output` 不直接声明 `reg` 类型
+- 输出若由时序逻辑产生,先写内部寄存器 `r_o_*`,再用 `assign` 转接到 `o_*`
+- 禁止写法: `output reg o_valid = 0`
+- 推荐写法:
+```verilog
+module demo (
+    input                                   i_clk                               ,
+    input                                   i_rst_p                             ,
+
+    output                                  o_valid                             ,
+    output  [31:0]                          o_data
+);
+
+    reg                                     r_o_valid = 0                       ;
+    reg     [31:0]                          r_o_data = 0                        ;
+
+always @(posedge i_clk)
+    if (i_rst_p)
+        r_o_valid <= 1'b0;
+    else
+        r_o_valid <= 1'b1;
+
+assign o_valid = r_o_valid;
+assign o_data  = r_o_data;
+```
+
 ## 状态机规范
 
 **编码方式**: 强制使用 onehot
